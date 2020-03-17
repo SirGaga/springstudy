@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- spring默认是按照配置的先后顺序来创建bean -->
+    <!-- depends-on="car" 使用这个属性来改变bean创建的先后顺序 这个就是bean之间的依赖 -->
+    <bean id="person" class="com.zhangjie.springstudy.Person" depends-on="car" ></bean>
+    <bean id="car" class="com.zhangjie.springstudy.Car"></bean>
+    <bean id="book" class="com.zhangjie.springstudy.Book"></bean>
+    <!-- 测试bean的作用域，分别创建单实例和多实例的bean
+        bean的作用域就是指的bean是否为单实例，默认是单实例，
+        使用bean标签的scope的属性值：
+            prototype：多实例的，将单个bean定义范围扩展到任意数量的对象实例。
+                1.容器启动默认不会去创建多实例bean
+                2.获取的时候创建bean
+                3.每次获取都会创建一个新的实例
+            singleton：单实例的，在每个SpringIOC容器中将单个bean定义限定到单个对象实例。默认的。
+                1.在容器启动完成之前就已经创建好对象，保存在容器中了
+                2.任何时候获取都是之前创建好的对象
+            //request：在web环境下，同一次请求创建一次实例，将单个bean定义限定到单个HTTP请求的生命周期；也就是说，每个HTTP请求都有自己的bean实例，该实例是在单个bean定义的后面创建的。
+            //session：在web环境下，同一次会话创建一次实例，将单个bean定义范围扩展到HTTP session的生命周期
+    -->
+    <bean id="book2" class="com.zhangjie.springstudy.Book" scope="prototype"></bean>
+
+    <!-- 实验五：配置通过静态工厂方法创建的bean、实例工厂方法创建的bean、FactoryBean -->
+    <!-- bean的创建默认就是框架利用反射new出来的对象实例 -->
+    <!--
+        工厂模式：工厂帮我们创建对象，有一个专门的类来帮我们创建对象，这个类就叫做工厂
+            静态工厂：工厂本身不用创建对象，通过静态方法的调用来返回我们需要的对象，对象 = 工厂类.工厂方法名()
+            动态工厂：工厂本身需要创建对象，
+     -->
+</beans>
