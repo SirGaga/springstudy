@@ -1,10 +1,10 @@
-package com.zhangjie.springstudy.com.zhangjie.factory;
+package com.zhangjie.springstudy.factory;
 
 import com.zhangjie.springstudy.AirPlane;
 
-public class AirPlaneInstanceFactory {
+public class AirPlaneStaticFactory {
 
-    public AirPlane getAirPlane(String jzName){
+    public static AirPlane getAirPlane(String jzName){
         AirPlane airPlane = new AirPlane();
         airPlane.setFdj("太行发动机");
         airPlane.setJzName(jzName);
