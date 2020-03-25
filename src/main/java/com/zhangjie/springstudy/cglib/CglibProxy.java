@@ -38,6 +38,8 @@ public class CglibProxy implements MethodInterceptor {
 
         System.out.println(person.getClass().getName());
 
+        System.out.println(person.getClass().getSuperclass().getName());
+
         person.study();
     }
 }
