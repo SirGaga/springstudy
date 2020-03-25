@@ -26,6 +26,23 @@ public class StringTest {
 
         System.out.println(s1 == s2);
 
+        // 下面三个的具体结果看String类的intern()
+        System.out.println(s == s.intern());// false
+
+        System.out.println(s1 == s1.intern());// true
+
+        System.out.println(s1.intern() == s2.intern());//true
+
+        String hello = "hello";
+        String hel = "hel";
+        String lo = "lo";
+
+        // +号两边都是字面值即常量时，返回的就是对String Pool中的"hello"这个字符串的引用
+        System.out.println(hello == "hel"+"lo");// true，
+        // lo是一个对象的引用，当他跟字符串拼接的时候，
+        // 返回的是在堆（Heap）创建的并且是String Pool中的"hello"这个字符串的copy的引用，所以false
+        System.out.println(hello == "hel" + lo);// false，
+
     }
 
 }
