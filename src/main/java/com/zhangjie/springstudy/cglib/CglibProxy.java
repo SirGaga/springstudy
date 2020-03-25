@@ -24,7 +24,7 @@ public class CglibProxy implements MethodInterceptor {
         System.out.println(o.getClass().getName()+ "." + method.getName());
 
         // 执行父类的对应方法
-        Object result = methodProxy.invoke(o,objects);
+        Object result = methodProxy.invokeSuper(o,objects);
 
         System.out.println("执行结束！");
 
