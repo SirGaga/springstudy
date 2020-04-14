@@ -24,5 +24,13 @@ public class AnnotationIOCTest {
 
 
     }
+    @Test
+    public void test02(){
+        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+
+        for (String name : beanDefinitionNames) {
+            System.out.println(name);
+        }
+    }
 
 }
