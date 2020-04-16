@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class IOCTest {
 
-    private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc.xml");
+    private ApplicationContext applicationContext  = new ClassPathXmlApplicationContext("ioc.xml");
     private ApplicationContext applicationContext2 = new ClassPathXmlApplicationContext("ioc2.xml");
     private ApplicationContext applicationContext3 = new ClassPathXmlApplicationContext("ioc3.xml");
     /**
