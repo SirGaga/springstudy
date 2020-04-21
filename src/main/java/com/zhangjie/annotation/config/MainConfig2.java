@@ -1,12 +1,18 @@
 package com.zhangjie.annotation.config;
 
+import com.zhangjie.annotation.bean.Color;
 import com.zhangjie.annotation.bean.Person;
+import com.zhangjie.annotation.bean.Red;
 import com.zhangjie.annotation.condition.LinuxCondition;
+import com.zhangjie.annotation.condition.MyImportBeanDefinitionRegistrar;
+import com.zhangjie.annotation.condition.MyImportSelect;
 import com.zhangjie.annotation.condition.WindowsCondition;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.*;
 
 @Configuration
+@Import({Color.class, Red.class, MyImportSelect.class, MyImportBeanDefinitionRegistrar.class})
+//导入组件：id默认是组件的全类名
 public class MainConfig2 {
     // @Scope注解表明的是bean的作用域
     /**
@@ -42,4 +48,16 @@ public class MainConfig2 {
     public Person person02(){
         return new Person("Linus",45);
     }
+
+    /**
+     * 给容器中注册组件的方式：
+     * 1.默认使用包扫描和使用注解 @ComponentScan @Controller、@Service、@Repository、@Component，主要用于自己编写的类
+     * 2.@Bean注解，主要用于第三方包中的组件
+     * 3.@Import注解，快速往容器中导入一个组件
+     *      1.@Import(要导入到容器中的组件)：容器中就会自动注册这个组件，ID默认是全类名
+     *      2.ImportSelector：返回需要导入组件的全类名的数组；
+     *      3.ImportBeanDefinitionRegistrar:手动注册bean到容器中
+     * 4.FactoryBean：
+     */
+
 }
