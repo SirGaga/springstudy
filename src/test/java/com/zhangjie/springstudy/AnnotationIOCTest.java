@@ -1,5 +1,6 @@
 package com.zhangjie.springstudy;
 
+import com.zhangjie.annotation.bean.Blue;
 import com.zhangjie.annotation.bean.Person;
 import com.zhangjie.annotation.config.MainConfig;
 import com.zhangjie.annotation.config.MainConfig2;
@@ -65,6 +66,21 @@ public class AnnotationIOCTest {
         Map<String, Person> beansOfType = applicationContext2.getBeansOfType(Person.class);
         System.out.println(beansOfType);
 
+
+    }
+
+    public void printBean(ApplicationContext applicationContext){
+        String[] beanNamesForType = applicationContext.getBeanDefinitionNames();
+        for (String name:beanNamesForType) {
+            System.out.println(name);
+        }
+    }
+
+    @Test
+    public void testImport(){
+        printBean(applicationContext2);
+        Blue blue = applicationContext2.getBean(Blue.class);
+        System.out.println(blue);
 
     }
 
