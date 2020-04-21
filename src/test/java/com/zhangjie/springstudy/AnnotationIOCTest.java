@@ -82,6 +82,10 @@ public class AnnotationIOCTest {
         Blue blue = applicationContext2.getBean(Blue.class);
         System.out.println(blue);
 
+        // 工厂Bean获取的是一批能够调用getObject创建的对选哪个
+        Object colorFactoryBean = applicationContext2.getBean("colorFactoryBean");
+        System.out.println(colorFactoryBean.getClass());
+
     }
 
 }

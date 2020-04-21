@@ -1,6 +1,7 @@
 package com.zhangjie.annotation.config;
 
 import com.zhangjie.annotation.bean.Color;
+import com.zhangjie.annotation.bean.ColorFactoryBean;
 import com.zhangjie.annotation.bean.Person;
 import com.zhangjie.annotation.bean.Red;
 import com.zhangjie.annotation.condition.LinuxCondition;
@@ -57,7 +58,13 @@ public class MainConfig2 {
      *      1.@Import(要导入到容器中的组件)：容器中就会自动注册这个组件，ID默认是全类名
      *      2.ImportSelector：返回需要导入组件的全类名的数组；
      *      3.ImportBeanDefinitionRegistrar:手动注册bean到容器中
-     * 4.FactoryBean：
+     * 4.FactoryBean:工厂bean
+     *      1.默认获取到的是工厂bean调用getObject创建的对象
+     *      2.想要获得该工厂bean本身需要给ID前边加一个 &
      */
+    @Bean
+    public ColorFactoryBean colorFactoryBean(){
+        return new ColorFactoryBean();
+    }
 
 }
