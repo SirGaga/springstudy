@@ -12,8 +12,6 @@ public class AnnotationAutoWired {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigAutoWired.class);
         BookService bookService = applicationContext.getBean(BookService.class);
 
-
-
         System.out.println(bookService);
         BookDao bookDao = applicationContext.getBean(BookDao.class);
 
