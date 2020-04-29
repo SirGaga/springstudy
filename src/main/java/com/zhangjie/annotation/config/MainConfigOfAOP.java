@@ -45,6 +45,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  *     org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator#initBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
  *
  *     org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator#initBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
+ * 流程：
+ *  1.传入配置类，创建ioc容器
  *
  *
  *
