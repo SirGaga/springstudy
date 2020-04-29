@@ -13,7 +13,7 @@ public class AnnotationAOP {
     public void test01(){
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfigOfAOP.class);
         MathCalculator calculator = applicationContext.getBean(MathCalculator.class);
-        calculator.div(1,0);
+        calculator.div(1,1);
 
     }
 }
