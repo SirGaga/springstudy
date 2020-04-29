@@ -65,7 +65,58 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  *              4） applyBeanPostProcessorAfterInitialization():应用后置处理器的的postProcessorAfterInitialization()
  *          4) BeanPostProcessor(AnnotationAwareAspectJAutoProxyCreator)创建成功-->aspectJAdvisorBuilder
  *      7) 把 BeanPostProcessor 注册到 BeanFactory 中：beanFactory.addBeanPostProcessor(postProcessor)
- *      8)
+ *      ============以上是创建和注册 AnnotationAwareAspectJAutoProxyCreator 的过程============
+ *      AnnotationAwareAspectJAutoProxyCreator -> InstantiationAwareBeanPostProcessor
+ *  4.finishBeanFactoryInitialization(beanFactory) 完成BeanFactory初始化工作，创建剩下的单实例bean
+ *      1) 遍历获取容器中所有的bean，依次创建 getBean(beanName);
+ *      getBean(beanName) -> getSingleton() ->
+ *      2) 创建bean
+ *      【AnnotationAwareAspectJAutoProxyCreator 在所有bean创建之前会有一个拦截，InstantiationAwareBeanPostProcessor 会调用postProcessBeforeInitialization()】
+ *          1)先从缓存中获取当前bean，如果能获取到，说明bean是之前被创建过的，直接使用，否则再创建
+ *          只要被创建好的bean都会被缓存起来，保证bean只创建一次
+ *          2)createBean(beanName)创建bean，AnnotationAwareAspectJAutoProxyCreator 会在任何bean创建之前先尝试返回bean的实例
+ *          【BeanPostProcessor是在Bean对象创建完成初始化前后调用的】
+ *          【InstantiationAwareBeanPostProcessor 是在创建bean实例之前先尝试用后置处理器返回对象】
+ *              1)resolveBeforeInstantiation(beanName,mbdToUse) 解析BeforeInstantiation
+ *                希望后置处理器在此能返回一个代理对象,如果能返回代理对象就用
+ *                1)后置处理器先尝试返回对象
+ *                拿到所有后置处理器，如果是 InstantiationAwareBeanPostProcessor
+ *                就执行后置处理器的 postProcessBeforeInstantiation
+ *                bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
+ *
+ * 					if (bean != null) {
+ * 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+ *                  }
+ *              2)如果不能就调用 doCreateBean(beanName,mbdToUse,args);真正的去创建一个bean实例和3.6整个过程一样
+ *              3)
+ *
+ * AnnotationAwareAspectJAutoProxyCreator【InstantiationAwareBeanPostProcessor】的作用：
+ *  1) 每一个bean创建之前调用 postProcessBeforeInstantiation()
+ *      关心 MathCalculator 和 LogAspect 的创建
+ *      1) 判断当前bean是否在 advisedBeans 中（保存了所有需要增强的bean）
+ *      2) 判断当前 bean 是否为基础类型的Advice、Pointcut、Advisor、AopInfrastructureBean 或者是否是切面（是否有@Aspect注解）
+ *      3）判断是否需要跳过
+ *          1)获取候选的增强器（切面里面的通知方法）【List<Advisor> candidateAdvisors】
+ *            每一个封装的通知方法的增强器是 InstantiationModelAwarePointcutAdvisor
+ *            判断每一个增强器是否是 AspectJPointcutAdvisor 类型的,如果是返回true
+ *          2)永远返回false
+ *  2)创建对象
+ *  postProcessAfterInitialization:
+ *      return wrapIfNecessary(bean, beanName, cacheKey) 在需要的情况下包装，
+ *      1)获取当前bean的所有增强器（通知方法）   Object[] specificInterceptors
+ *          1)找到候选的能在当前bean使用的增强器（找哪些通知方法是需要切入当前bean方法的）
+ *          2)获取到能在当前bean使用的增强器
+ *          3)给增强器排序
+ *      2)保存当前bean在advisedBeans中
+ *      3)如果当前bean需要增强，创建当前bean的代理对象
+ *          1)获取所有增强器（通知方法）
+ *          2)保存到ProxyFactory中
+ *          3)创建代理对象:Spring自动决定
+ *              JdkDynamicAopProxy(config)//jdk动态代理
+ *              ObjenesisCglibAopProxy(config)//cglib的动态代理
+ *      4)给容器中返回当前组件使用cglib增强了的代理对象
+ *      5)以后容器中获取到的就是这个组件的代理对象，执行目标方法的时候，代理对象就会执行通知方法的流程
+ *
  *
  *
  *
