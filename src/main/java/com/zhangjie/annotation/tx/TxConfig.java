@@ -7,6 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -18,12 +21,15 @@ import java.beans.PropertyVetoException;
  * 1、导入相关依赖
  *      数据源、数据库驱动、SpringJdbc模块
  * 2、配置数据源和JdbcTemplate操作数据库
+ * 3、在方法上标注 @Transactional 表示当前方法是事务方法
+ * 4、@EnableTransactionManagement 开启基于注解的事务管理功能
+ * 5、配置事务管理器管理事务
  *
  */
-
+@EnableTransactionManagement
 @PropertySource("classpath:/dbconfig.properties")
 @Configuration
-@ComponentScan(value = {"com.zhangjie.annotation.tx"})
+@ComponentScan(value = {"com.zhangjie.annotation.service","com.zhangjie.annotation.dao"})
 public class TxConfig {
 
     @Value("${db.username}")
@@ -55,6 +61,11 @@ public class TxConfig {
     public JdbcTemplate jdbcTemplate() throws PropertyVetoException {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource());
         return jdbcTemplate;
+    }
+    //在容器中注册事务管理器
+    @Bean
+    public PlatformTransactionManager transactionManager() throws PropertyVetoException {
+        return new DataSourceTransactionManager(dataSource());
     }
 
 }
