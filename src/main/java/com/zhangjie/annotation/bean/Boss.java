@@ -28,7 +28,6 @@ public class Boss {
         this.car = car;
     }
 
-    @Override
     public String toString() {
         return "Boss{" +
                 "car=" + car +

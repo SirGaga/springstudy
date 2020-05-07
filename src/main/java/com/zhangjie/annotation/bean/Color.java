@@ -11,7 +11,6 @@ public class Color {
         this.car = car;
     }
 
-    @Override
     public String toString() {
         return "Color{" +
                 "car=" + car +

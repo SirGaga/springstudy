@@ -16,7 +16,6 @@ public class BookDao {
         this.label = label;
     }
 
-    @Override
     public String toString() {
         return "BookDao{" +
                 "label='" + label + '\'' +

@@ -18,7 +18,6 @@ public class CglibProxy implements MethodInterceptor {
         return object;
     }
 
-    @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
 
         System.out.println(o.getClass().getName()+ "." + method.getName());

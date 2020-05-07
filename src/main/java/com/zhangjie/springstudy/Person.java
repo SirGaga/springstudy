@@ -92,7 +92,6 @@ public class Person {
         this.properties = properties;
     }
 
-    @Override
     public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +

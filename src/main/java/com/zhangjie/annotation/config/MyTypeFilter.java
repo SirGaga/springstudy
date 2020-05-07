@@ -18,7 +18,6 @@ public class MyTypeFilter implements TypeFilter {
      * @return
      * @throws IOException
      */
-    @Override
     public boolean match(MetadataReader metadataReader, MetadataReaderFactory metadataReaderFactory) throws IOException {
         // 获取当前类注解的信息
         AnnotationMetadata annotationMetadata = metadataReader.getAnnotationMetadata();
@@ -29,9 +28,9 @@ public class MyTypeFilter implements TypeFilter {
 
         String className = classMetadata.getClassName();
         System.out.println("----->"+ className);
-        if (className.contains("er")){
-            return true;
-        }
-        return false;
+        //if (className.contains("er")){
+        //    return true;
+        //}
+        return true;
     }
 }

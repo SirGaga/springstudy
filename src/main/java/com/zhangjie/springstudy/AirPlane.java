@@ -60,7 +60,6 @@ public class AirPlane {
     public AirPlane() {
     }
 
-    @Override
     public String toString() {
         return "AirPlane{" +
                 "fdj='" + fdj + '\'' +
