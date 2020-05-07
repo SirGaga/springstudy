@@ -15,7 +15,7 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
      *                 通过调用 BeanDefinitionRegistry的registerBeanDefinition方法手工进行组件注册
      *
      */
-    @Override
+
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         boolean definition = registry.containsBeanDefinition("com.zhangjie.annotation.bean.Red");
         boolean definition2 = registry.containsBeanDefinition("com.zhangjie.annotation.bean.Blue");

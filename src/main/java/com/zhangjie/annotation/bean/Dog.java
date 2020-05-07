@@ -27,7 +27,7 @@ public class Dog implements ApplicationContextAware {
         System.out.println("dog...@PreDestroy...");
     }
 
-    @Override
+
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }

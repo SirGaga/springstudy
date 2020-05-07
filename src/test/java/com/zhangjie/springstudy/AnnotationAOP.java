@@ -1,10 +1,7 @@
 package com.zhangjie.springstudy;
 
 import com.zhangjie.annotation.condition.MathCalculator;
-import com.zhangjie.annotation.config.MainConfigAutoWired;
 import com.zhangjie.annotation.config.MainConfigOfAOP;
-import com.zhangjie.annotation.dao.BookDao;
-import com.zhangjie.annotation.service.BookService;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

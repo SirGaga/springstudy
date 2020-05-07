@@ -14,7 +14,7 @@ public class WindowsCondition implements Condition {
          * @param metadata 当前标注了@Conditional注解的还有什么其他的注解
          * @return
          */
-        @Override
+
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
             // 是否linux系统
             // 1.能获取到ioc使用的BeanFactory
@@ -27,9 +27,6 @@ public class WindowsCondition implements Condition {
             BeanDefinitionRegistry registry = context.getRegistry();
 
             String property = environment.getProperty("os.name");
-            if (property.contains("Windows")){
-                return true;
-            }
-            return false;
-    }
+            return property.contains("Windows");
+        }
 }

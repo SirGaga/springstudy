@@ -15,7 +15,6 @@ public class LinuxCondition implements Condition {
      * @param metadata 当前标注了@Conditional注解的注释信息
      * @return
      */
-    @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         // 是否linux系统
         // 1.能获取到ioc使用的BeanFactory
@@ -28,9 +27,6 @@ public class LinuxCondition implements Condition {
         BeanDefinitionRegistry registry = context.getRegistry();
 
         String property = environment.getProperty("os.name");
-        if (property.contains("linux")){
-            return true;
-        }
-        return false;
+        return property.contains("linux");
     }
 }

@@ -1,5 +1,6 @@
 package com.zhangjie.annotation.bean;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 //默认加载IoC容器中的组件，容器启动会调用无参构造器，创建对象，再进行初始化赋值操作

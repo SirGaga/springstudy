@@ -20,7 +20,8 @@ public class AnnotationIOCTest {
     @Test
     public void test01(){
 
-        Person bean = applicationContext.getBean(Person.class);
+        //Person bean = applicationContext.getBean(Person.class);
+        Person bean = (Person) applicationContext.getBean("person");
         System.out.println(bean);
 
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();

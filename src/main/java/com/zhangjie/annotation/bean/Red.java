@@ -11,18 +11,18 @@ import org.springframework.util.StringValueResolver;
 @Component
 public class Red implements ApplicationContextAware, BeanNameAware, EmbeddedValueResolverAware {
     private ApplicationContext applicationContext;
-    @Override
+
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         System.out.println("传入的IoC："+applicationContext);
         this.applicationContext = applicationContext;
     }
 
-    @Override
+
     public void setBeanName(String name) {
         System.out.println("当前bean的名字："+name);
     }
 
-    @Override
+
     public void setEmbeddedValueResolver(StringValueResolver resolver) {
         String s = resolver.resolveStringValue("你好${os.name} 我是#{20*18}");
         System.out.println("解析的字符串："+s);
