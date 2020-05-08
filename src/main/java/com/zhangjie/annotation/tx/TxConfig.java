@@ -33,6 +33,13 @@ import java.beans.PropertyVetoException;
  *          代理对象利用拦截器链进行调用
  *
  * 3) ProxyTransactionManagementConfiguration
+ *      1.给容器中事务增强器
+ *          事务增强器要用事务注解的信息，AnnotationTransactionAttributeSource 解析事务注解
+ *          事务拦截器 TransactionInterceptor 保存了事务属性信息，事务管理器，底层还是要给MethodInterceptor，
+ *              在目标方法执行的时候，执行拦截器链（TransactionInterceptor）
+ *                  先获取事务相关的属性
+ *                  再获取 PlatformTransactionManager ，如果事先没有指定任何 TransactionManager ，最终会从容器中按照类型获取一个 TransactionManager（PlatformTransactionManager）
+ *                  执行目标方法，如果发生异常，获取到事务管理器，利用事务管理器回滚操作，如果没有发生异常，利用事务管理器提交事务
  *
  */
 @EnableTransactionManagement
