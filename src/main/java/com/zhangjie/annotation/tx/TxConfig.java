@@ -25,6 +25,15 @@ import java.beans.PropertyVetoException;
  * 4、@EnableTransactionManagement 开启基于注解的事务管理功能
  * 5、配置事务管理器管理事务
  *
+ * 原理：
+ * 1) @EnableTransactionManagement 利用 TransactionManagementConfigurationSelector 给容器中导入组件
+ *      导入两个组件：AutoProxyRegistrar 和 ProxyTransactionManagementConfiguration
+ * 2) AutoProxyRegistrar ：给容器中注册一个 InfrastructureAdvisorAutoProxyCreator 组件
+ *      InfrastructureAdvisorAutoProxyCreator : 利用后置处理器机制在对象创建以后，包装对象，返回一个代理对象（其中包含增强器），
+ *          代理对象利用拦截器链进行调用
+ *
+ * 3) ProxyTransactionManagementConfiguration
+ *
  */
 @EnableTransactionManagement
 @PropertySource("classpath:/dbconfig.properties")
