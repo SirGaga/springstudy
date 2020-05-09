@@ -1,0 +1,30 @@
+1.prepareRefresh() 刷新前的预处理
+    1.initPropertySources()初始化一些属性设置;子类自定义个性化的属性设置方法
+    2.getEnvironment().validateRequiredProperties();检验属性的合法性等
+    3.[Set<ApplicationEvent>] -> this.earlyApplicationEvents = new LinkedHashSet<ApplicationEvent>();保存容器中一些早期的事件
+2.ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();告诉子类去刷新内部beanFactory，获取beanFactory
+    1.refreshBeanFactory();刷新beanFactory
+        创建一个this.beanFactory = new DefaultListableBeanFactory();
+        设置序列化id this.beanFactory.setSerializationId(getId());
+    2.ConfigurableListableBeanFactory beanFactory = getBeanFactory(); 创建beanFactory，返回 GenericApplicationContext 创建的 this.beanFactory;
+    3.返回 beanFactory 【DefaultListableBeanFactory】
+3.prepareBeanFactory(beanFactory);BeanFactory的预准备工作（BeanFactory进行一些设置）
+    1.设置BeanFactory的类加载器、表达式解析器等
+    2.添加部分BeanPostProcessor【ApplicationContextAwareProcessor】
+    3.设置忽略的自动装配的接口：EnvironmentAware、EmbeddedValueResolverAware、ResourceLoaderAware、ApplicationEventPublisherAware、MessageSourceAware、ApplicationContextAware
+    4.注册可以解析的自动装配：能直接在任何组件中使用 @Autowired 注解自动注入的依赖，BeanFactory、ResourceLoader、ApplicationEventPublisher、ApplicationContext
+    5.添加部分后置处理器：ApplicationListenerDetector
+    6.添加编译时的AspectJ支持
+    7.在BeanFactory中注册一些能用的组件：environment【ConfigurableEnvironment】、systemProperties【ConfigurableEnvironment下的getSystemProperties()】、systemEnvironment【ConfigurableEnvironment下的getSystemEnvironment()】
+4.postProcessBeanFactory(beanFactory);BeanFactory准备工作完成后进行的后置处理工作
+    1.子类通过重写这个方法在BeanFactory创建并预准备完成以后做进一步的设置
+=======================================================以上是BeanFactory的创建以及预准备工作=======================================================
+5.invokeBeanFactoryPostProcessors(beanFactory);执行 BeanFactoryPostProcessors
+    BeanFactoryPostProcessor:BeanFactory的后置处理器，在BeanFactory标准初始化（前边的4步）之后执行的
+    两个接口：BeanFactoryPostProcessor、BeanDefinitionRegistryPostProcessor
+    1.执行 PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors()); 执行BeanFactoryPostProcessors的方法：
+        先执行 BeanDefinitionRegistryPostProcessor的方法 -> if (beanFactory instanceof BeanDefinitionRegistry)
+        1.获取所有的 BeanDefinitionRegistryPostProcessor
+        2.按照实现排序接口优先级排序的BeanDefinitionRegistryPostProcessors：PriorityOrdered->Ordered->剩余的 BeanDefinitionRegistryPostProcessors,调用 invokeBeanDefinitionRegistryPostProcessors -> postProcessor.postProcessBeanDefinitionRegistry(registry);
+        再执行 BeanFactoryPostProcessor 的方法
+        按照实现排序接口优先级排序的 BeanFactoryPostProcessor：PriorityOrdered->Ordered->剩余的 BeanFactoryPostProcessor,调用 invokeBeanFactoryPostProcessors -> postProcessor.postProcessBeanFactory(beanFactory);
