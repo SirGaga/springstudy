@@ -103,3 +103,25 @@
                                 调用 BeanPostProcessor 的 result = processor.postProcessAfterInitialization(result, beanName);
                         5.registerDisposableBeanIfNecessary(beanName, bean, mbd);注册Bean的销毁方法
                     5.将创建的Bean添加到缓存中 singletonObjects （IoC容器本质就是这些缓存了组件Map，其中有单实例Bean，环境信息等等）
+        4.所有bean都利用getBean创建完成以后，检查所有的bean是否为 SmartInitializingSingleton 接口的实现类
+            如果是：调用 smartSingleton.afterSingletonsInstantiated();
+12.finishRefresh();完成BeanFactory的初始化创建工作：IoC容器创建完成
+    1.initLifecycleProcessor(); 初始化和生命周期有关的后置处理器：LifecycleProcessor
+        默认从容器中查找是否有lifeCyCleProcessor的组件【LifecycleProcessor】，如果没有就创建 DefaultLifecycleProcessor defaultProcessor = new DefaultLifecycleProcessor();
+        写一个LifecycleProcessor的实现类，可以在 BeanFactory 刷新完成，和关闭的时候进行调用(onRefresh(),onClose())
+    2.getLifecycleProcessor().onRefresh();拿到前面定义的生命周期处理器（BeanFactory），回调onRefresh();方法
+    3.publishEvent(new ContextRefreshedEvent(this));发布容器刷新完成时间的时间
+    4.LiveBeansView.registerApplicationContext(this);
+
+============================================ 总结 =================================================================
+1.Spring容器在启动的时候，先会保存所有注册进来的Bean的定义信息
+    1.使用xml注册Bean:<bean/>
+    2.使用注解注册bean:@Service、@Component、@Bean
+2.Spring容器会在合适的实际创建这些Bean
+    1.用到这个bean的时候，利用getBean创建bean，创建好以后保存到容器中
+    2.统一创建剩下所有bean的时候，finishBeanFactoryInitialization(beanFactory);
+3.后置处理器：每一个bean创建完成都会使用各种后置处理器，来增强bean的功能
+    AutowiredAnnotationBeanPostProcessor:处理自动注入
+    AnnotationAwareAspectJAutoProxyCreator:来做AOP的功能
+4.事件驱动模型 ApplicationListener 事件监听器：
+    事件派发
